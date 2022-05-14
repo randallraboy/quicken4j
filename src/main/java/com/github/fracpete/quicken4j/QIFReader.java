@@ -22,6 +22,7 @@ package com.github.fracpete.quicken4j;
 
 import org.apache.commons.io.IOUtils;
 
+import javax.annotation.WillNotClose;
 import java.io.*;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -72,11 +73,9 @@ public class QIFReader {
    * Reads the transactions from the specified file with the given encoding.
    *
    * @param file    the file to read
-   * @param encoding
+   * @param encoding the character encoding to use to read the file
    * @return		the transactions
-   * @param encoding the given encoding
    * @throws IOException if file reading fails
-   * @throws Exception	if reading of file fails or invalid format
    */
   public Transactions read(File file, Charset encoding) throws IOException {
     Transactions result;
@@ -101,10 +100,9 @@ public class QIFReader {
    *
    * @param stream	the stream to use
    * @return		the transactions
-   * @throws IOException
-   * @throws Exception	if reading of stream fails or invalid format
+   * @throws IOException if was unable to read the stream
    */
-  public Transactions read(InputStream stream) throws IOException {
+  public Transactions read(@WillNotClose InputStream stream) throws IOException {
     return read(new InputStreamReader(stream));
   }
   
@@ -114,8 +112,7 @@ public class QIFReader {
    *
    * @param reader	the reader to use
    * @return		the transactions
-   * @throws IOException
-   * @throws Exception	if reading from reader fails or invalid format
+   * @throws IOException if was unable to read
    */
   public Transactions read(Reader reader) throws IOException {
     Transactions result;

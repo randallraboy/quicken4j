@@ -20,6 +20,7 @@
 
 package com.github.fracpete.quicken4j;
 
+import javax.annotation.Nullable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -78,8 +79,9 @@ public class Transaction {
    * Initializes the transaction with the specified values.
    *
    * @param values	the values to initialize with
+   * @param dateFormat the date format to use; or DEFAULT_DATE_FORMAT if given null
    */
-  public Transaction(Map<String,String> values, String dateFormat) {
+  public Transaction(Map<String,String> values, @Nullable String dateFormat) {
     super();
 
     if (dateFormat == null) {
@@ -149,7 +151,7 @@ public class Transaction {
       return null;
     }
     try {
-      return new Double(getValue("T").replaceAll(",", ""));
+      return Double.parseDouble(getValue("T").replaceAll(",", ""));
     }
     catch (final NumberFormatException e) {
       return null;
